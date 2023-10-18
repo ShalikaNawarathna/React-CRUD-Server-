@@ -47,12 +47,28 @@ namespace ReactAPIDemo.Controllers
 
         // POST api/<UserController>
         [HttpPost("createUser")]
-        public ActionResult<Users> Post([FromBody] Users user)
+        /*public ActionResult<Users> Post([FromBody] Users user)
         {
+            
             userService.Create(user);
             return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
         }
-
+        */
+        public ActionResult<Users> Post([FromBody] Users user)
+        {
+            try
+            {
+              var newUser =   userService.Create(user);
+                return Ok(newUser);
+                //return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                // Return an error response to the client
+                return BadRequest(ex.Message);
+            }
+        }
         // PUT api/<UserController>/5
         [HttpPut("updateUser/{email}")]
         public async  Task<ActionResult> Put(Users user, string email)
